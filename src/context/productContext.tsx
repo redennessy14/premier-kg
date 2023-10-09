@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useState } from "react";
 import { ActionI } from "./helper";
 
 interface ProductsContextI {}
@@ -33,8 +33,18 @@ function reducer(state = INIT_STATE, action: ActionI) {
   }
 }
 
-const productContext = () => {
-  return <div></div>;
+const ProductsContextProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [loading, setLoading] = useState(false);
+  return (
+    <productsContext.Provider value={{ loading }}>
+      {" "}
+      {children}
+    </productsContext.Provider>
+  );
 };
 
-export default productContext;
+export default ProductsContextProvider;
