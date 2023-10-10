@@ -3,14 +3,17 @@ import React from "react";
 import "./App.css";
 import ProductsContextProvider from "./context/productContext";
 import Navbar from "./components/Navbar/Navbar";
+import Routing from "./Routing";
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <ProductsContextProvider>
+    <ProductsContextProvider>
+      <BrowserRouter>
         <Navbar />
-      </ProductsContextProvider>
-    </div>
+        <Routing />
+      </BrowserRouter>
+    </ProductsContextProvider>
   );
 }
 

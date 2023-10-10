@@ -1,0 +1,51 @@
+.fadeInFromBottom {
+  width: 80%;
+  margin: 0 auto;
+  align-items: center;
+}
+
+@keyframes fadeInFromBottom {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.fadeInFromBottom {
+  animation: fadeInFromBottom 1s ease-out;
+}
+.fadeInFromBottom {
+  font-size: 90px;
+}
+
+@keyframes fadeInFromBottomRegister {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.register_btn {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+}
+
+.button-animation {
+  animation: fadeInFromBottomRegister 1s ease-out forwards;
+}
+.button-animation:nth-child(1) {
+  animation-delay: 0.5s;
+}
+
+.button-animation:nth-child(2) {
+  animation-delay: 1s;
+}
