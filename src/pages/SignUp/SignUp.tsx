@@ -13,17 +13,17 @@ const SignUp = () => {
     watch,
   } = useForm();
   const pwd = watch("password");
-  //   const { handleSignUp } = useContext(authContext);
+  const { handleSignUp } = useContext(authContext);
   const navigate = useNavigate();
 
   const onSubmit = (data: any) => {
     // /sign-up
-    // handleSignUp(data, navigate);
+    handleSignUp(data, navigate);
   };
 
   return (
     <div style={{ width: "50%", margin: "0 auto" }}>
-      <h2>Sign up</h2>
+      <h2>Регистрация</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
         style={{
@@ -35,7 +35,7 @@ const SignUp = () => {
         <Controller
           control={control}
           name="email"
-          rules={{ required: "Email is required" }}
+          rules={{ required: "Email пустой " }}
           render={({ field }) => (
             <TextField
               error={!!errors.email}
@@ -56,12 +56,12 @@ const SignUp = () => {
         <Controller
           control={control}
           name="password"
-          rules={{ required: "Password is required" }}
+          rules={{ required: "Пароль пустой" }}
           render={({ field }) => (
             <TextField
               error={!!errors.password}
               helperText={errors.password?.message?.toString()}
-              label="Password"
+              label="Пароль"
               {...field}
               // sx={{ height: "40px" }}
               type="password"
@@ -73,14 +73,14 @@ const SignUp = () => {
           control={control}
           name="password_confirm"
           rules={{
-            required: "Password is required",
+            required: "Повтор пароля пустой",
             validate: (value) => value === pwd || "The passwords don't match",
           }}
           render={({ field }) => (
             <TextField
               error={!!errors.password_confirm}
               helperText={errors.password_confirm?.message?.toString()}
-              label="Confirm password"
+              label="Повторите пароль"
               {...field}
               // sx={{ height: "40px" }}
               type="password"
@@ -89,12 +89,12 @@ const SignUp = () => {
         />
         <div>
           <p>
-            Already have an account? <Link to="/sign-in">Sign in</Link>
+            У вас уже есть аккаунт ? <Link to="/sign-in">Войти </Link>
           </p>
         </div>
 
         <Button type="submit" variant="outlined">
-          Submit
+          Создать Аккаунт{" "}
         </Button>
       </form>
     </div>

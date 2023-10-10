@@ -2,6 +2,7 @@
   width: 80%;
   margin: 0 auto;
   align-items: center;
+  color: white;
 }
 
 @keyframes fadeInFromBottom {
@@ -48,4 +49,58 @@
 
 .button-animation:nth-child(2) {
   animation-delay: 1s;
+}
+/* popcor */
+
+.iron_man {
+  width: 500px;
+  position: absolute;
+  top: 300px;
+  left: 900px;
+  z-index: -1;
+  animation: fadeInFromBottomRegister 2s ease-out forwards;
+}
+.superman {
+  width: 400px;
+}
+.superman {
+  position: absolute;
+  top: 400px;
+  left: 200px;
+  z-index: -1;
+  animation: fadeInFromBottomRegister 2s ease-out forwards;
+  animation: moveUpDown 3s ease-in-out infinite alternate;
+}
+
+@keyframes moveUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.spiderman {
+  width: 300px;
+}
+.spiderman {
+  position: absolute;
+  animation: appearFromTop 2s ease-in-out forwards;
+  opacity: 0;
+  top: 70px;
+  z-index: -1;
+}
+
+@keyframes appearFromTop {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

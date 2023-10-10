@@ -22,7 +22,7 @@ const Routing = () => {
   return (
     <Routes>
       {" "}
-      <Route path="*" element={<Home />} />
+      <Route path="home" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/sign-in" element={<SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
