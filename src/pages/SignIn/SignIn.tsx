@@ -4,6 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import { authContext } from "../../context/authContext";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import "./SignIn.css";
 
 interface SignInI {
   email: string;
@@ -26,8 +27,8 @@ const SignIn = () => {
   };
 
   return (
-    <div style={{ width: "50%", margin: "0 auto" }}>
-      <h2>Sign in</h2>
+    <div className="sign-in" style={{ width: "50%", margin: "0 auto" }}>
+      <h2>Войти в аккаунт</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
         style={{
@@ -77,7 +78,7 @@ const SignIn = () => {
             У вас еще нету аккаунта ? <Link to="/sign-up">Регистрация</Link>
           </p>
         </div>
-        <Button type="submit" variant="outlined">
+        <Button type="submit" color="error" variant="contained">
           Войти
         </Button>
       </form>

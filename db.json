@@ -1,4 +1,11 @@
 {
-  "users": [],
+  "users": [
+    {
+      "email": "becausemirbek@gmail.ru",
+      "password": "QWERTY",
+      "password_confirm": "QWERTY",
+      "id": 1
+    }
+  ],
   "series": []
 }

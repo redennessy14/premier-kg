@@ -1,0 +1,19 @@
+.sign-up {
+  color: white;
+}
+
+.MuiInputLabel-root {
+  color: white !important;
+  border: white !important;
+}
+
+.MuiInputBase-input {
+  border: white !important;
+  color: white !important;
+}
+.OutlineInputBorder {
+  color: white;
+}
+.MuiOutlinedInput-notchedOutline {
+  border-color: white !important;
+}

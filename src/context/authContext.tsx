@@ -1,4 +1,5 @@
 import axios from "axios";
+import { log } from "console";
 import React, { createContext, useState, useContext } from "react";
 
 interface ContextI {
@@ -20,9 +21,10 @@ const initVal = {
 interface UserI {
   email: string;
   password: string;
+  password_confirm: string;
 }
 
-const API = "http://localhost:8000";
+const API = "http://35.198.162.176/api/v1";
 
 export const authContext = createContext<ContextI>(initVal);
 
@@ -37,7 +39,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   ) => {
     setLoading(true);
     try {
-      const { data } = await axios(`${API}/users`);
+      const { data } = await axios.post(`${API}/account/login/`, user);
       localStorage.setItem("tokens", JSON.stringify(data));
       localStorage.setItem("email", user.email);
       navigate("/");
@@ -54,7 +56,8 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   ) => {
     setLoading(true);
     try {
-      await axios.post(`${API}/user`, user);
+      console.log(`${API}/account/register/`);
+      await axios.post(`${API}/account/register/`, user);
       navigate("/sign-in");
     } catch (error) {
       console.log(error, "error");

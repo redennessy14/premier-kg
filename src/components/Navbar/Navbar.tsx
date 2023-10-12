@@ -14,8 +14,11 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import AdbIcon from "@mui/icons-material/Adb";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -46,7 +49,7 @@ const Navbar = () => {
               variant="h6"
               noWrap
               component="a"
-              href="home"
+              href="*"
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
@@ -57,7 +60,7 @@ const Navbar = () => {
                 textDecoration: "none",
               }}
             >
-              Premier KG
+              SerialSfera KG
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -111,7 +114,7 @@ const Navbar = () => {
                 textDecoration: "none",
               }}
             >
-              Premier kg
+              SerialSfera KG
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {/* {pages.map((page) => (
@@ -128,9 +131,10 @@ const Navbar = () => {
 
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                </IconButton>
+                <IconButton
+                  onClick={handleOpenUserMenu}
+                  sx={{ p: 0 }}
+                ></IconButton>
               </Tooltip>
               <Menu
                 sx={{ mt: "45px" }}
@@ -148,6 +152,24 @@ const Navbar = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               ></Menu>
+
+              <Button
+                onClick={() => navigate("/sign-up")}
+                variant="contained"
+                size="small"
+                color="error"
+              >
+                Регистрация
+              </Button>
+              <Button
+                sx={{ marginLeft: "25px" }}
+                onClick={() => navigate("/sign-in")}
+                variant="contained"
+                size="small"
+                color="error"
+              >
+                Войти
+              </Button>
             </Box>
           </Toolbar>
         </Container>

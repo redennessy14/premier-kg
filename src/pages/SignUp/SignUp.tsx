@@ -1,8 +1,12 @@
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, makeStyles } from "@mui/material";
 import { useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+
+import "./SignUp.css";
+
 import { authContext } from "../../context/authContext";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const {
@@ -17,12 +21,14 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data: any) => {
-    // /sign-up
+    console.log(data);
+
     handleSignUp(data, navigate);
+    toast.success(" Потвердите почту !");
   };
 
   return (
-    <div style={{ width: "50%", margin: "0 auto" }}>
+    <div className="sign-up" style={{ width: "50%", margin: "0 auto" }}>
       <h2>Регистрация</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -38,6 +44,11 @@ const SignUp = () => {
           rules={{ required: "Email пустой " }}
           render={({ field }) => (
             <TextField
+              sx={{
+                "&:placeholder": {
+                  color: "pri",
+                },
+              }}
               error={!!errors.email}
               helperText={errors.email?.message?.toString()}
               label="Email"
@@ -71,13 +82,14 @@ const SignUp = () => {
 
         <Controller
           control={control}
-          name="password_confirm"
+          name="password2"
           rules={{
             required: "Повтор пароля пустой",
             validate: (value) => value === pwd || "The passwords don't match",
           }}
           render={({ field }) => (
             <TextField
+              variant="outlined"
               error={!!errors.password_confirm}
               helperText={errors.password_confirm?.message?.toString()}
               label="Повторите пароль"
@@ -93,7 +105,7 @@ const SignUp = () => {
           </p>
         </div>
 
-        <Button type="submit" variant="outlined">
+        <Button type="submit" variant="contained" color="error">
           Создать Аккаунт{" "}
         </Button>
       </form>
