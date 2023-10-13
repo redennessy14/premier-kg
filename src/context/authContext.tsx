@@ -1,6 +1,7 @@
 import axios from "axios";
 import { log } from "console";
 import React, { createContext, useState, useContext } from "react";
+import { toast } from "react-toastify";
 
 interface ContextI {
   loading: boolean;
@@ -42,11 +43,13 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
       const { data } = await axios.post(`${API}/account/login/`, user);
       localStorage.setItem("tokens", JSON.stringify(data));
       localStorage.setItem("email", user.email);
+
       navigate("/");
     } catch (error) {
       console.log(error, "error");
     } finally {
       setLoading(false);
+      window.location.reload();
     }
   };
 

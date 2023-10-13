@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -18,6 +18,13 @@ import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState<string | null>("");
+  const isAdmin = currentUser === "mirbek@gmail.com";
+
+  useEffect(() => {
+    const user = localStorage.getItem("email");
+    setCurrentUser(user);
+  }, []);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -126,7 +133,9 @@ const Navbar = () => {
                   {page}
                 </Button>
               ))} */}
-              <Button color="inherit">Products</Button>
+              <Button color="inherit" onClick={() => navigate("/series")}>
+                Series
+              </Button>
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
@@ -152,24 +161,27 @@ const Navbar = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               ></Menu>
-
-              <Button
-                onClick={() => navigate("/sign-up")}
-                variant="contained"
-                size="small"
-                color="error"
-              >
-                Регистрация
-              </Button>
-              <Button
-                sx={{ marginLeft: "25px" }}
-                onClick={() => navigate("/sign-in")}
-                variant="contained"
-                size="small"
-                color="error"
-              >
-                Войти
-              </Button>
+              {!currentUser ? (
+                <>
+                  <Button
+                    onClick={() => navigate("/sign-up")}
+                    variant="contained"
+                    size="small"
+                    color="error"
+                  >
+                    Регистрация
+                  </Button>
+                  <Button
+                    sx={{ marginLeft: "25px" }}
+                    onClick={() => navigate("/sign-in")}
+                    variant="contained"
+                    size="small"
+                    color="error"
+                  >
+                    Войти
+                  </Button>
+                </>
+              ) : null}
             </Box>
           </Toolbar>
         </Container>

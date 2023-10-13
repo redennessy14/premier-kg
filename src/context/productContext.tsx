@@ -1,33 +1,59 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useReducer, useState } from "react";
 import { ActionI } from "./helper";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { SeriesI } from "../pages/CreateSeries/CreateSeries";
 
-interface ProductsContextI {}
+interface ProductsContextI {
+  categories: CategoryI[];
+  series: SeriesI[];
+  createCategory: (category: CategoryI) => void;
+  getCategories: () => void;
+  getSeries: any;
+  createSeries: (product: SeriesI, navigate: (path: string) => void) => void;
+  deleteSeries: (id: number) => void;
+}
 
 export const productsContext = createContext<ProductsContextI>(
   {} as ProductsContextI
 );
 
 const INIT_STATE = {
-  products: [],
+  series: [],
   pages: 0,
   categories: [],
   productDetails: null,
 };
 
-const API = "http://34.173.115.25/api/v1";
+interface CategoryI {
+  title: string;
+  // id: number;
+}
+
+const getConfig = () => {
+  const tokens = JSON.parse(localStorage.getItem("tokens") as string);
+  const Auth = `Bearer ${tokens.access}`;
+  return {
+    headers: {
+      Authorization: Auth,
+    },
+  };
+};
+
+const API = "http://35.198.162.176/api/v1";
 
 function reducer(state = INIT_STATE, action: ActionI) {
   switch (action.type) {
-    case "GET_PRODUCTS":
+    case "GET_SERIES":
       return {
         ...state,
-        products: action.payload.results,
-        pages: Math.ceil(action.payload.count / 6),
+        series: action.payload.results,
+        // pages: Math.ceil(action.payload.count / 6),
       };
     case "GET_CATEGORIES":
       return { ...state, categories: action.payload };
-    case "GET_ONE_PRODUCT":
-      return { ...state, oneProduct: action.payload };
+    case "GET_ONE_SERIES":
+      return { ...state, oneSeries: action.payload };
     default:
       return state;
   }
@@ -38,9 +64,78 @@ const ProductsContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [loading, setLoading] = useState(false);
+  const [state, dispatch] = useReducer(reducer, INIT_STATE);
+  // const [loading, setLoading] = useState(false);
+
+  const getCategories = async () => {
+    try {
+      const { data } = await axios(`${API}/series/category/`, getConfig());
+      dispatch({
+        type: "GET_CATEGORIES",
+        payload: data.results,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const createCategory = async (category: CategoryI) => {
+    try {
+      await axios.post(`${API}/series/category/`, category, getConfig());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const createSeries = async (
+    series: SeriesI,
+    navigate: (val: string) => void
+  ) => {
+    try {
+      const {
+        data: { title },
+      } = await axios.post(`${API}/series/`, series, getConfig());
+      toast.success(`Сериал ${title} создан`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getSeries = async () => {
+    try {
+      const { data } = await axios(`${API}/series/`);
+
+      dispatch({
+        type: "GET_SERIES",
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error, "err");
+    } finally {
+      // setLoading(false);
+    }
+  };
+
+  const deleteSeries = async (id: number) => {
+    try {
+      await axios.delete(`${API}/series/${id}/`, getConfig());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <productsContext.Provider value={{ loading }}>
+    <productsContext.Provider
+      value={{
+        categories: state.categories,
+        series: state.series,
+        createCategory,
+        getCategories,
+        createSeries,
+        getSeries,
+        deleteSeries,
+      }}
+    >
       {" "}
       {children}
     </productsContext.Provider>

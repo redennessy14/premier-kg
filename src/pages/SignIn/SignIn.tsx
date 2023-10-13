@@ -24,6 +24,7 @@ const SignIn = () => {
 
   const onSubmit = (data: any) => {
     handleSignIn(data, navigate);
+    toast.success("Вы успешно вошли в аккаунт");
   };
 
   return (
