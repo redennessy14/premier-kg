@@ -1,0 +1,5 @@
+.detail__video {
+  max-height: 600px;
+  overflow: hidden;
+  max-width: 50%;
+}

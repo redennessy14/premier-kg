@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -15,11 +15,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
+import { authContext } from "../../context/authContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState<string | null>("");
-  const isAdmin = currentUser === "mirbek@gmail.com";
+  const isAdmin = currentUser === "ralz9-ralz9@mail.ru";
+  const { handleSignOut } = useContext(authContext);
 
   useEffect(() => {
     const user = localStorage.getItem("email");
@@ -46,6 +48,16 @@ const Navbar = () => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleMenuOpen = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
   return (
     <div>
@@ -160,10 +172,48 @@ const Navbar = () => {
                 }}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
-              ></Menu>
+              ></Menu>{" "}
+              {currentUser ? currentUser : "Вы не вошли в аккаунт "}
+              {currentUser ? (
+                <div>
+                  <Button
+                    aria-controls="my-account-menu"
+                    aria-haspopup="true"
+                    onClick={handleMenuOpen}
+                    color="error"
+                    variant="contained"
+                    sx={{ marginTop: "25px" }}
+                  >
+                    Мой аккаунт
+                  </Button>
+                  <Menu
+                    id="my-account-menu"
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleMenuClose}
+                  >
+                    {isAdmin && (
+                      <>
+                        <MenuItem onClick={() => navigate("/create-series")}>
+                          Создать продукт
+                        </MenuItem>
+                        <MenuItem onClick={() => navigate("/create-category")}>
+                          Создать категорию
+                        </MenuItem>
+                      </>
+                    )}
+                    <MenuItem onClick={() => handleSignOut(navigate)}>
+                      Выход
+                    </MenuItem>
+                  </Menu>
+                </div>
+              ) : (
+                ""
+              )}
               {!currentUser ? (
                 <>
                   <Button
+                    sx={{ marginLeft: "25px" }}
                     onClick={() => navigate("/sign-up")}
                     variant="contained"
                     size="small"

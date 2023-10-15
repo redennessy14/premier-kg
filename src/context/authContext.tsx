@@ -9,6 +9,7 @@ interface ContextI {
   currentUser: any;
   handleSignIn: any;
   handleSignUp: any;
+  handleSignOut: any;
 }
 
 const initVal = {
@@ -17,6 +18,7 @@ const initVal = {
   currentUser: "",
   handleSignIn: () => {},
   handleSignUp: () => {},
+  handleSignOut: () => {},
 };
 
 interface UserI {
@@ -69,10 +71,23 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(false);
     }
   };
+  const handleSignOut = (navigate: (value: string) => void) => {
+    localStorage.removeItem("tokens");
+    localStorage.removeItem("email");
+    setCurrentUser("");
+    navigate("/sign-in");
+  };
 
   return (
     <authContext.Provider
-      value={{ loading, error, currentUser, handleSignIn, handleSignUp }}
+      value={{
+        loading,
+        error,
+        currentUser,
+        handleSignIn,
+        handleSignUp,
+        handleSignOut,
+      }}
     >
       {children}
     </authContext.Provider>

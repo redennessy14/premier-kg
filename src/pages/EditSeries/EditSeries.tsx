@@ -1,3 +1,4 @@
+import React, { useContext, useEffect } from "react";
 import {
   Button,
   FormControl,
@@ -7,58 +8,51 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import React, { useContext, useEffect } from "react";
+
 import { Controller, useForm } from "react-hook-form";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import "./CreateSeries.css";
+
 import { productsContext } from "../../context/productContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { SeriesI } from "../CreateSeries/CreateSeries";
 
-export interface SeriesI {
-  title: string;
-  description: string;
-  price: string;
-  category: number;
-  video: any;
-  id: number;
-}
-interface CategoryI {
-  name: string;
-}
-
-const CreateSeries = () => {
-  const { getCategories, categories, createSeries } =
-    useContext(productsContext);
+const EditSeries = () => {
   const {
     control,
     formState: { errors },
     handleSubmit,
   } = useForm<SeriesI>();
 
-  const navigate = useNavigate();
+  const {
+    getCategories,
+    categories,
+    createSeries,
+    series,
+    getSeriesById,
+    oneSeries,
+    editSeries,
+  } = useContext(productsContext);
 
-  const onSubmit = (data: SeriesI) => {
-    const formData: any = new FormData();
-
-    formData.append("title", data.title);
-    formData.append("description", data.description);
-    formData.append("video", data.video);
-    formData.append("category", data.category.toString());
-
-    createSeries(formData, navigate);
-  };
-
-  console.log(categories);
+  const { id } = useParams();
 
   useEffect(() => {
     getCategories();
+    getSeriesById(id as any);
   }, []);
+  console.log(oneSeries, "ssssseruis");
+  console.log(id, "id");
+
+  const handleEdit = async () => {
+    console.log("Rabotaet");
+    await editSeries(oneSeries, id);
+  };
+
   return (
     <div style={{ width: "50%", margin: "0 auto" }}>
-      <h3>Create Product</h3>
+      <h3>Edit Series</h3>
       <form
         style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(handleEdit)}
       >
         <Controller
           control={control}
@@ -66,6 +60,7 @@ const CreateSeries = () => {
           rules={{ required: "Title is required" }}
           render={({ field }) => (
             <TextField
+              defaultValue={oneSeries.title}
               error={!!errors.title}
               helperText={errors.title?.message?.toString()}
               label="Title"
@@ -80,6 +75,7 @@ const CreateSeries = () => {
           rules={{ required: "Description is required" }}
           render={({ field }) => (
             <TextField
+              defaultValue={oneSeries.description}
               error={!!errors.description}
               helperText={errors.description?.message?.toString()}
               label="Description"
@@ -108,7 +104,11 @@ const CreateSeries = () => {
                 </MenuItem>
                 {categories &&
                   categories.map((category: any, index: number) => (
-                    <MenuItem key={index} value={category.name}>
+                    <MenuItem
+                      defaultValue={oneSeries.categories}
+                      key={index}
+                      value={category.name}
+                    >
                       {category.name}
                     </MenuItem>
                   ))}
@@ -116,8 +116,22 @@ const CreateSeries = () => {
             )}
           />
         </FormControl>
-
         <Controller
+          control={control}
+          name="video"
+          rules={{ required: "Video is required" }}
+          render={({ field }) => (
+            <TextField
+              defaultValue={oneSeries.video}
+              error={!!errors.video}
+              helperText={errors.video?.message?.toString()}
+              label="Video"
+              {...field}
+              type="text"
+            />
+          )}
+        />
+        {/* <Controller
           control={control}
           name="video"
           rules={{ required: "Video is required" }}
@@ -139,7 +153,7 @@ const CreateSeries = () => {
               />
             </Button>
           )}
-        />
+        /> */}
         <Button type="submit" color="error" variant="contained">
           Create
         </Button>
@@ -148,4 +162,4 @@ const CreateSeries = () => {
   );
 };
 
-export default CreateSeries;
+export default EditSeries;
