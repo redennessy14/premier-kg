@@ -141,7 +141,7 @@ const CreateSeries = () => {
           )}
         />
         <Button type="submit" color="error" variant="contained">
-          Create
+          Создать
         </Button>
       </form>
     </div>

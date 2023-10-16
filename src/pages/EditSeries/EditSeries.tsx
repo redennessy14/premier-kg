@@ -116,7 +116,7 @@ const EditSeries = () => {
             )}
           />
         </FormControl>
-        <Controller
+        {/* <Controller
           control={control}
           name="video"
           rules={{ required: "Video is required" }}
@@ -127,11 +127,11 @@ const EditSeries = () => {
               helperText={errors.video?.message?.toString()}
               label="Video"
               {...field}
-              type="text"
+              type="video/mp4"
             />
           )}
-        />
-        {/* <Controller
+        /> */}
+        <Controller
           control={control}
           name="video"
           rules={{ required: "Video is required" }}
@@ -153,9 +153,9 @@ const EditSeries = () => {
               />
             </Button>
           )}
-        /> */}
+        />
         <Button type="submit" color="error" variant="contained">
-          Create
+          Сохранить
         </Button>
       </form>
     </div>

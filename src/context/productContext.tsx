@@ -3,6 +3,7 @@ import { ActionI } from "./helper";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { SeriesI } from "../pages/CreateSeries/CreateSeries";
+import { CommentI } from "../pages/SeriesDetail/SeriesDetail";
 
 interface ProductsContextI {
   categories: CategoryI[];
@@ -192,9 +193,9 @@ const ProductsContextProvider = ({
     }
   };
 
-  const addComment = async () => {
+  const addComment = async (data: CommentI) => {
     try {
-      await axios.post(`${API}/series/comments/`, getConfig());
+      await axios.post(`${API}/series/comments/`, data, getConfig());
     } catch (error) {
       console.log(error);
     }

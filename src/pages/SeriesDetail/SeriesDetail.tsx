@@ -6,6 +6,11 @@ import { Controller, useForm } from "react-hook-form";
 import { Button, TextField } from "@mui/material";
 import "./SeriesDetail.css";
 
+export interface CommentI {
+  text: string;
+  publication: any;
+}
+
 const SeriesDetail = () => {
   const {
     control,
@@ -21,11 +26,15 @@ const SeriesDetail = () => {
   useEffect(() => {
     getSeriesById(id);
   }, []);
+
+  const createComment = (data: any) => {
+    addComment(data);
+  };
+
   return (
     <div style={{ color: "white" }}>
       <video controls className="detail__video">
         <source src={oneSeries.video} type="video/mp4" />
-        Your browser does not support the video tag.
       </video>
 
       <div>Название {oneSeries.title}</div>
@@ -37,11 +46,11 @@ const SeriesDetail = () => {
       <div>Коментарии {oneSeries.comments}</div>
       <form
         style={{ display: "flex", flexDirection: "column" }}
-        onSubmit={handleSubmit(addComment)}
+        onSubmit={handleSubmit(createComment)}
       >
         <Controller
           control={control}
-          name="name"
+          name="text"
           rules={{ required: "Название категории пусто" }}
           render={({ field }) => (
             <TextField
@@ -53,6 +62,7 @@ const SeriesDetail = () => {
             />
           )}
         />
+
         <Button
           type="submit"
           color="error"
