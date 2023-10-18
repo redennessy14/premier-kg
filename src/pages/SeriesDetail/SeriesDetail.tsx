@@ -28,22 +28,38 @@ const SeriesDetail = () => {
   }, []);
 
   const createComment = (data: any) => {
-    addComment(data);
+    const formData: any = new FormData();
+
+    formData.append("text", data.text);
+
+    formData.append("publications", id);
+
+    addComment(formData);
+    getSeriesById(id);
   };
+  if (!oneSeries) {
+    return <h1 style={{ color: "white" }}>"Loading..."</h1>;
+  }
 
   return (
     <div style={{ color: "white" }}>
       <video controls className="detail__video">
         <source src={oneSeries.video} type="video/mp4" />
       </video>
-
-      <div>Название {oneSeries.title}</div>
-
-      <div>Описание {oneSeries.description}</div>
-      <div>Просмотры {oneSeries.count_views}</div>
-      <div>Лайки {oneSeries.like_count}</div>
-      <div>Рейтинг {oneSeries.rating}</div>
-      <div>Коментарии {oneSeries.comments}</div>
+      <div>
+        <div>Название {oneSeries.title}</div>
+        <div>Описание {oneSeries.description}</div>
+        <div>Просмотры {oneSeries.count_views}</div>
+        <div>Лайки {oneSeries.like_count}</div>
+        <div>Рейтинг {oneSeries.rating}</div>
+        <div>Комментарии:</div>
+        {oneSeries.comments.map((comment: any) => (
+          <div key={comment.id} className="commentBlock">
+            <p className="author">Автор комментария: {comment.owner}</p>
+            <p className="text">Текст комментария: {comment.text}</p>
+          </div>
+        ))}
+      </div>
       <form
         style={{ display: "flex", flexDirection: "column" }}
         onSubmit={handleSubmit(createComment)}

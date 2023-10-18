@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { SeriesI } from "../pages/CreateSeries/CreateSeries";
 import { CommentI } from "../pages/SeriesDetail/SeriesDetail";
+import { useNavigate } from "react-router-dom";
 
 interface ProductsContextI {
   categories: CategoryI[];
@@ -21,6 +22,7 @@ interface ProductsContextI {
   oneCategory: any;
   deleteCategory: (name: string) => void;
   addComment: any;
+  addFavorite: any;
 }
 
 export const productsContext = createContext<ProductsContextI>(
@@ -29,11 +31,12 @@ export const productsContext = createContext<ProductsContextI>(
 
 const INIT_STATE = {
   series: [],
-  oneSeries: {},
+  oneSeries: null,
   oneCategory: {},
   pages: 0,
   categories: [],
   productDetails: null,
+  // comments: {},
 };
 
 interface CategoryI {
@@ -51,7 +54,7 @@ const getConfig = () => {
   };
 };
 
-const API = "http://35.198.162.176/api/v1";
+const API = "http://34.159.136.83/api/v1";
 
 function reducer(state = INIT_STATE, action: ActionI) {
   switch (action.type) {
@@ -67,6 +70,8 @@ function reducer(state = INIT_STATE, action: ActionI) {
       return { ...state, oneSeries: action.payload };
     case "GET_ONE_CATEGORY":
       return { ...state, oneCategory: action.payload };
+    // case "GET_COMMENTS":
+    //   return { ...state, comments: action.payload };
     default:
       return state;
   }
@@ -95,10 +100,12 @@ const ProductsContextProvider = ({
   const getSeriesById = async (id: any) => {
     try {
       const { data } = await axios(`${API}/series/${id}`);
+      // setTimeout(() => {
       dispatch({
         type: "GET_ONE_SERIES",
         payload: data,
       });
+      // }, 1000);
     } catch (error) {
       console.log(error);
     }
@@ -201,6 +208,29 @@ const ProductsContextProvider = ({
     }
   };
 
+  const addFavorite = async (series: any, id: any) => {
+    try {
+      await axios.post(`${API}/series/${id}/favorite/`, series, getConfig());
+      setIsFavorite(true);
+      setFavoriteMessage("Вы добавили в избранное");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getFavorites = async (id: number) => {
+    console.log(id);
+
+    try {
+      const data = await axios.get(`${API}/series/favorites/`, getConfig());
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [favoriteMessage, setFavoriteMessage] = useState("");
+
   return (
     <productsContext.Provider
       value={{
@@ -219,6 +249,7 @@ const ProductsContextProvider = ({
         getCategoryByName,
         editCategory,
         addComment,
+        addFavorite,
       }}
     >
       {" "}

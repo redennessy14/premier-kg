@@ -3,3 +3,23 @@
   overflow: hidden;
   max-width: 50%;
 }
+
+/* Стили для блока комментария */
+.commentBlock {
+  border: 1px solid #ccc;
+  padding: 10px;
+
+  margin: 20px 0;
+}
+
+.commentBlock p {
+  margin: 0;
+}
+
+.commentBlock .author {
+  font-weight: bold;
+}
+
+.commentBlock .text {
+  margin-top: 5px;
+}

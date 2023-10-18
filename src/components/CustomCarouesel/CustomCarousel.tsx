@@ -28,8 +28,12 @@ const CustomCarousel = () => {
       {series.length > 0 &&
         series.map((series: SeriesI) => (
           <div key={series.id}>
-            <video controls className="detail__video">
-              <source src={series.video} type="video/mp4" />
+            <video autoPlay loop muted controls className="detail__video2">
+              <source
+                className="detail__video"
+                src={series.video}
+                type="video/mp4"
+              />
             </video>
           </div>
         ))}

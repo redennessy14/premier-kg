@@ -15,6 +15,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { productsContext } from "../../context/productContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { SeriesI } from "../CreateSeries/CreateSeries";
+import { toast } from "react-toastify";
 
 const EditSeries = () => {
   const {
@@ -35,18 +36,33 @@ const EditSeries = () => {
 
   const { id } = useParams();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     getCategories();
-    getSeriesById(id as any);
+    getSeriesById(id as string);
   }, []);
+  console.clear();
   console.log(oneSeries, "ssssseruis");
   console.log(id, "id");
 
-  const handleEdit = async () => {
-    console.log("Rabotaet");
-    await editSeries(oneSeries, id);
+  const handleEdit = async (data: SeriesI) => {
+    const formData: any = new FormData();
+
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("video", data.video);
+    formData.append("category", data.category.toString());
+    await editSeries(formData, id);
+
+    toast.success(`Сериал  изменен`);
+
+    navigate("/series");
   };
 
+  if (!oneSeries) {
+    return <h1 style={{ color: "white" }}>"Loading..."</h1>;
+  }
   return (
     <div style={{ width: "50%", margin: "0 auto" }}>
       <h3>Edit Series</h3>

@@ -2,3 +2,10 @@
   margin: 0 auto;
   width: 80%;
 }
+.detail__video2 {
+  width: 100%;
+}
+.detail__video {
+  width: 100%;
+  align-items: center;
+}

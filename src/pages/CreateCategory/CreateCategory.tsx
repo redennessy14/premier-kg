@@ -1,4 +1,11 @@
-import { Box, Button, Modal, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Input,
+  Modal,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useContext, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { productsContext } from "../../context/productContext";
@@ -7,6 +14,8 @@ import "./CreateCategory.css";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
+
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const style = {
   position: "absolute" as "absolute",
@@ -41,8 +50,12 @@ const CreateCategory = () => {
   const [formValues, setFormValues] = React.useState({ name: "" }); // Обновлено здесь
 
   const onSubmit = (data: any) => {
-    console.log(data, "dadadada");
-    createCategory(data);
+    const formData: any = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("image", data.image);
+
+    createCategory(formData);
     getCategories();
   };
 
@@ -73,6 +86,7 @@ const CreateCategory = () => {
   //   const handleEditCategory = async (name: any) => {
   //     await editCategory(oneCategory, name);
   //   };
+  console.log(categories, "ds");
 
   return (
     <div
@@ -101,6 +115,29 @@ const CreateCategory = () => {
             />
           )}
         />
+        <Controller
+          control={control}
+          name="image"
+          rules={{ required: "Image is required" }}
+          render={({ field: { value, onChange, ...field } }) => (
+            <Button
+              component="label"
+              color="error"
+              variant="contained"
+              startIcon={<CloudUploadIcon />}
+            >
+              Upload file
+              <Input
+                sx={{ display: "none" }}
+                {...field}
+                className="uploadFile"
+                type="file"
+                value={value?.fileName}
+                onChange={({ target }: any) => onChange(target.files[0])}
+              />
+            </Button>
+          )}
+        />
         <Button
           type="submit"
           color="error"
@@ -116,8 +153,9 @@ const CreateCategory = () => {
           categories.map((category: any, index: number) => (
             <div className="category_card" key={index}>
               {category.name}
+
               <div>
-                {" "}
+                {""}
                 <Button>
                   <DeleteOutlineIcon
                     color="error"

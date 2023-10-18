@@ -1,10 +1,16 @@
-import React from "react";
 import CustomCarousel from "../components/CustomCarouesel/CustomCarousel";
+import CustomCategory from "../components/CustomCategory/CustomCategory";
+
+import "./Home.css";
 
 const Home = () => {
   return (
     <div>
-      <CustomCarousel />
+      <div>
+        {" "}
+        <CustomCarousel />
+        <CustomCategory />
+      </div>
     </div>
   );
 };

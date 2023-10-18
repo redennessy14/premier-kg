@@ -27,7 +27,7 @@ interface UserI {
   password_confirm: string;
 }
 
-const API = "http://35.198.162.176/api/v1";
+const API = "http://34.159.136.83/api/v1";
 
 export const authContext = createContext<ContextI>(initVal);
 

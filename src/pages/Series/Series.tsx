@@ -5,6 +5,7 @@ import { SeriesI } from "../CreateSeries/CreateSeries";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import {
   Button,
   Card,
@@ -54,8 +55,15 @@ const Series = () => {
       >
         {series.length > 0 ? (
           series.map((series: SeriesI) => (
-            <Card style={{ width: "30%" }}>
+            <Card
+              style={{
+                width: "30%",
+                backgroundColor: "black",
+                color: "white",
+              }}
+            >
               <CardMedia
+                sx={{ maxHeight: "300px" }}
                 component="video"
                 controls // Добавляем controls для управления видео (play, pause, etc.)
                 // autoPlay // Добавляем autoPlay для автоматического воспроизведения
@@ -68,7 +76,11 @@ const Series = () => {
                 <Typography gutterBottom variant="h5" component="div">
                   {series.title}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                  variant="body2"
+                  sx={{ color: "white" }}
+                  color="text.secondary"
+                >
                   {series.description}
                 </Typography>
               </CardContent>
